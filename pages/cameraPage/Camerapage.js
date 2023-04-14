@@ -10,7 +10,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesome } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons'; 
-import { styles } from './Signstyles';
+import { styles } from './Camstyles';
 import Tabbar from "@mindinventory/react-native-tab-bar-interaction";
 const  Camerapage = () => {
     const navigation = useNavigation();
@@ -31,25 +31,7 @@ const  Camerapage = () => {
       ];
   return (
     <>
-    <SafeAreaView style={styles.container}>
-      <View style={styles.avatarView}>
-        
-      </View>
-      <View style={styles.textView}>
-        <View style={styles.textInputStyle}>
-        <TextInput
-      
-        multiline
-        // value={result}
-        placeholder="Type to translate"
-        style={{ flex: 1 }}
-        //onChangeText={text => setResult(text)}
-        />
-        <TouchableOpacity>
-        
-         <FontAwesome name="microphone" size={24} color="#034b6e" />
-         </TouchableOpacity>
-      </View>
+
       <Tabbar
       style={{height:20}}
     tabs={tabs}
@@ -58,10 +40,9 @@ const  Camerapage = () => {
     tabBarBackground='#e8e8e8'
     activeTabBackground='#aaaa'
     labelStyle={{ color: '#aaa', fontWeight: '600', fontSize: 14  }}
-    onTabChange={() => console.log('Tab changed')}
+    onTabChange={() =>navigation.navigate('Signiturepage')}
   />
-      </View>
-    </SafeAreaView>
+    
     </>
   );
 };

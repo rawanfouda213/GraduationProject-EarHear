@@ -11,6 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import { FontAwesome } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons'; 
 import { styles } from './Signstyles';
+import { Ionicons } from '@expo/vector-icons'; 
 import Tabbar from "@mindinventory/react-native-tab-bar-interaction";
 const windowDimensions = Dimensions.get('window');
 const windowWidth = Dimensions.get('window').width;
@@ -27,6 +28,11 @@ const  Signiturepage = () => {
           name: 'Camera',
           activeIcon: <Entypo name="camera" size={24} color="#034b6e" />,
           inactiveIcon: <Entypo name="camera" size={24} color="#e8e8e8" />
+        },
+        {
+          name: 'Learn',
+          activeIcon: <Ionicons name="book-sharp" size={24} color="#034b6e" />,
+          inactiveIcon: <Ionicons name="book-sharp" size={24} color="#e8e8e8" />
         },
       
       

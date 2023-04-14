@@ -13,7 +13,7 @@
        <Stack.Navigator>
         <Stack.Screen  options={{headerShown: false}}name="Splashscreen" component={Splashscreen} />
         <Stack.Screen  options={{headerShown: false}}name="Welcomepage" component={Welcomepage} />
-        <Stack.Screen  options={{headerShown: false}}name="Signiturepage" component={Signiturepage} />  
+        <Stack.Screen  options={{headerShown: false}}name="Signiturepage" component={Signiturepage}/>  
         <Stack.Screen  options={{headerShown: false}}name="Camerapage" component={Camerapage} />  
       </Stack.Navigator>
         </NavigationContainer>
