@@ -18,25 +18,25 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const  Signiturepage = () => {
   const navigation = useNavigation();
-    const tabs = [
-        {
-          name: 'Voice',
-          activeIcon: <FontAwesome name="microphone" size={24} color="#034b6e" />,
-          inactiveIcon: <FontAwesome name="microphone" size={24} color="#e8e8e8" />
-        },
-        {
-          name: 'Camera',
-          activeIcon: <Entypo name="camera" size={24} color="#034b6e" />,
-          inactiveIcon: <Entypo name="camera" size={24} color="#e8e8e8" />
-        },
-        {
-          name: 'Learn',
-          activeIcon: <Ionicons name="book-sharp" size={24} color="#034b6e" />,
-          inactiveIcon: <Ionicons name="book-sharp" size={24} color="#e8e8e8" />
-        },
+    // const tabs = [
+    //     {
+    //       name: 'Voice',
+    //       activeIcon: <FontAwesome name="microphone" size={24} color="#034b6e" />,
+    //       inactiveIcon: <FontAwesome name="microphone" size={24} color="#e8e8e8" />
+    //     },
+    //     {
+    //       name: 'Camera',
+    //       activeIcon: <Entypo name="camera" size={24} color="#034b6e" />,
+    //       inactiveIcon: <Entypo name="camera" size={24} color="#e8e8e8" />
+    //     },
+    //     {
+    //       name: 'Learn',
+    //       activeIcon: <Ionicons name="book-sharp" size={24} color="#034b6e" />,
+    //       inactiveIcon: <Ionicons name="book-sharp" size={24} color="#e8e8e8" />
+    //     },
       
       
-      ];
+    //   ];
   return (
     <>
     <SafeAreaView style={styles.container}>
@@ -58,7 +58,7 @@ const  Signiturepage = () => {
          <FontAwesome name="microphone" size={24} color="#034b6e" />
          </TouchableOpacity>
       </View>
-      <Tabbar
+      {/* <Tabbar
       style={{height:20}}
     tabs={tabs}
     tabBarContainerBackground='#034b6e'
@@ -67,7 +67,7 @@ const  Signiturepage = () => {
     activeTabBackground='#aaaa'
     labelStyle={{ color: '#aaa', fontWeight: '600', fontSize: 14  }}
     onTabChange={() => console.log('Tab changed')}
-  />
+  /> */}
       </View>
     </SafeAreaView>
     </>

@@ -63,7 +63,7 @@ const Welcomepage = () => {
        progress
        onPress={() => {
          
-        navigation.navigate('Signiturepage')
+        navigation.navigate('Tabs')
        }}
      >  
       Start Now 
