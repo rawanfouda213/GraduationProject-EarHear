@@ -15,7 +15,7 @@ export const styles  = StyleSheet.create({
     alignItems: 'center',
   },
   logoText: {
-    fontSize: 35,
+    fontSize: 27,
     marginTop: '10%',
     color: '#034b6e',
     fontWeight: 'bold',
@@ -52,20 +52,24 @@ export const styles  = StyleSheet.create({
   ContentContainer: {
     flexDirection: "row",
            flexWrap: "wrap",
-           alignItems:'flex-start'
+           marginStart:'5%'
 
   },
   ContentText: {
-    fontSize: 23,
+    fontSize: 21,
     color: '#034b6e',
-    padding:'10%'
+    padding:'10%',
+    lineHeight: parseInt('30%'),
+    textAlignLast: 'justify' ,
+    
+   
 
   },
   ButtonContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems:'center',
-    marginTop:'10%'
+    marginTop:'-28%'
 
 
   },

@@ -10,7 +10,9 @@ import {
 import AwesomeButton from 'react-native-really-awesome-button';
 import { useNavigation } from '@react-navigation/native';
 import { styles } from './Wstyles';
+import Swiper from "react-native-web-swiper";
 //const deviceLanguage = getLocales()[0].languageCode;
+
 const windowDimensions = Dimensions.get('window');
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -30,7 +32,36 @@ const Welcomepage = () => {
     return () => subscription?.remove();
   });
   return (
+    <>
+   
     <SafeAreaView style={styles.container}>
+      <Swiper>
+
+
+      <View style={styles.contentContainer}>
+        <View style={[styles.logoContainer]}>
+          <Image
+            style={[styles.image]}
+            source={require('./img/welcome.jpg')}
+          />
+
+        </View>
+        <View style={[styles.TextContainer]}>
+        <Text style={[styles.logoText]}>Hi there!</Text>
+          {/* <Text style={[styles.logoText]}>About App : {getLocales()[0].languageCode} </Text> */}
+        </View>
+        <View style={[styles.ContentContainer]}>
+        <Text style={[styles.ContentText]}>
+        Hello, It's EarHear Application that will
+         help you integrate with Society.
+         
+           </Text>
+        </View>
+
+      </View>
+
+
+
       <View style={styles.contentContainer}>
         <View style={[styles.logoContainer]}>
           <Image
@@ -41,19 +72,41 @@ const Welcomepage = () => {
         </View>
         <View style={[styles.TextContainer]}>
         <Text style={[styles.logoText]}>About App</Text>
-          {/* <Text style={[styles.logoText]}>About App : {getLocales()[0].languageCode} </Text> */}
         </View>
         <View style={[styles.ContentContainer]}>
         <Text style={[styles.ContentText]}>
           EarHear uses AI to translate sign language
-          and make the communication with each other get easier.
+          to text and audio and vice versa
+          so the communication with each other will get easier.
          
            </Text>
-          {/* <Text style={[styles.ContentText]}>
-          EarHear uses AI to translate sign language
-          and make the communication with each other get easier.
-          : {getLocales()[0].languageCode}
-           </Text> */}
+        </View>
+      </View>
+      
+
+
+      <View style={styles.contentContainer}>
+        <View style={[styles.logoContainer]}>
+          <Image
+            style={[styles.image]}
+            source={require('./img/welcome.jpg')}
+          />
+
+        </View>
+        <View style={[styles.TextContainer]}>
+        <Text style={[styles.logoText]}>How it Works?</Text>
+        </View>
+        <View style={[styles.ContentContainer]} >
+        <Text style={[styles.ContentText]}>
+          The App has two features Voice Recorder and Camera.{'\n'}
+      
+          1- You can use Voice Recorder to record your talks
+            and AI will translate them to Text and SignLanguage.{'\n'}
+          
+          2- You can use Camera to translate SignLanguage
+            to Text using AI.{'\n'}
+          
+           </Text>
         </View>
         <View style={[styles.ButtonContainer]}>
         <AwesomeButton
@@ -70,8 +123,10 @@ const Welcomepage = () => {
      </AwesomeButton>
     </View>
       </View>
+      </Swiper>
     </SafeAreaView>
-    
+  
+    </>
   );
 };
 
