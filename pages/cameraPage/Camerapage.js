@@ -13,7 +13,8 @@ const WINDOW_HEIGHT = Dimensions.get("window").height;
 const closeButtonSize = Math.floor(WINDOW_HEIGHT * 0.032);
 const captureSize = Math.floor(WINDOW_HEIGHT * 0.09);
 export default function App() {
-  const [hasPermission, setHasPermission] = useState(null);
+  const [hasMicrophonePermission, setHasMicrophonePermission] = useState();
+  const [hasPermission, setHasPermission] = useState();
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
   const [isPreview, setIsPreview] = useState(false);
   const [isCameraReady, setIsCameraReady] = useState(false);
@@ -22,10 +23,21 @@ export default function App() {
   const cameraRef = useRef();
   useEffect(() => {
     (async () => {
-      const { status } = await Camera.requestPermissionsAsync();
-      setHasPermission(status === "granted");
-    })();
-  }, []);
+            const cameraPermission = await Camera.requestCameraPermissionsAsync();
+            const microphonePermission = await Camera.requestMicrophonePermissionsAsync();
+            
+      
+            setHasPermission(cameraPermission.status === "granted");
+            setHasMicrophonePermission(microphonePermission.status === "granted");
+            
+          })();
+        }, []);
+
+        if (hasPermission === undefined || hasMicrophonePermission === undefined) {
+              return <Text>Requestion permissions...</Text>
+            } else if (!hasPermission) {
+              return <Text>Permission for camera not granted.</Text>
+            }
   const onCameraReady = () => {
     setIsCameraReady(true);
   };

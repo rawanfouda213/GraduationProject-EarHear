@@ -190,24 +190,24 @@
   // }
   
   // const styles = StyleSheet.create({
-  //   container: {
-  //     flex: 1,
-  //     backgroundColor: '#fff',
-  //     alignItems: 'center',
-  //     justifyContent: 'center',
-  //   },
-  //   row: {
-  //     flexDirection: 'row',
-  //     alignItems: 'center',
-  //     justifyContent: 'center',
-  //   },
-  //   fill: {
-  //     flex: 1,
-  //     margin: 16
-  //   },
-  //   button: {
-  //     margin: 16
-  //   }
+    // container: {
+    //   flex: 1,
+    //   backgroundColor: '#fff',
+    //   alignItems: 'center',
+    //   justifyContent: 'center',
+    // },
+    // row: {
+    //   flexDirection: 'row',
+    //   alignItems: 'center',
+    //   justifyContent: 'center',
+    // },
+    // fill: {
+    //   flex: 1,
+    //   margin: 16
+    // },
+    // button: {
+    //   margin: 16
+    // }
   // });
   
 

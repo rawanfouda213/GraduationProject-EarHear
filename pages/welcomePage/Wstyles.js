@@ -16,52 +16,56 @@ export const styles  = StyleSheet.create({
   },
   logoText: {
     fontSize: 27,
-    marginTop: '10%',
+     marginTop: '5%',
     color: '#034b6e',
     fontWeight: 'bold',
 
   },
   contentContainer: {
-    top: '35%',
+     top: '25%',
     alignItems: 'center',
   },
   image: {
-    width: "88%",
+    width: "80%",
     height: 250,
-    resizeMode:'cover'
-    
-
-
+    resizeMode:'cover',
+    marginTop:'-25%',
+    justifyContent:'center',
+    alignItems:'center',
+  
   },
+
   logoContainer: {
     flexDirection: "row",
-           flexWrap: "wrap",
-          marginTop:'-55%',
+          //  flexWrap: "wrap",
+          //  marginRight:'20%',
            alignItems:'center',
            borderBottomColor:'#034b6e',
-           borderBottomWidth:1
+           borderBottomWidth:.5,
+         justifyContent:'center',
+         marginTop:'25%'
 
 
   },
   TextContainer: {
     flexDirection: "row",
-           flexWrap: "wrap",
-           alignItems:'center'
-
+    
+           alignItems:'center',
+marginBottom:'-25%'
   },
   ContentContainer: {
     flexDirection: "row",
-           flexWrap: "wrap",
+        
            marginStart:'5%'
 
   },
   ContentText: {
-    fontSize: 21,
+    fontSize: 22,
     color: '#034b6e',
-    padding:'10%',
+ 
     lineHeight: parseInt('30%'),
     textAlignLast: 'justify' ,
-    
+     marginTop:'35%'
    
 
   },
@@ -69,7 +73,7 @@ export const styles  = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems:'center',
-    marginTop:'-28%'
+     marginTop:'10%'
 
 
   },
