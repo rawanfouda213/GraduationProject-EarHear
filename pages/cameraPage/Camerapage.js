@@ -1,17 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  StyleSheet,
-  Dimensions,
-  View,
-  Text,
-  TouchableOpacity,
-  SafeAreaView,
-} from "react-native";
+import { View, Text, TouchableOpacity, SafeAreaView } from "react-native";
 import { Camera } from "expo-camera";
 import { Video } from "expo-av";
-const WINDOW_HEIGHT = Dimensions.get("window").height;
-const closeButtonSize = Math.floor(WINDOW_HEIGHT * 0.032);
-const captureSize = Math.floor(WINDOW_HEIGHT * 0.09);
+
 export default function Camerapage() {
   const [hasMicrophonePermission, setHasMicrophonePermission] = useState();
   const [hasPermission, setHasPermission] = useState();
@@ -23,21 +14,20 @@ export default function Camerapage() {
   const cameraRef = useRef();
   useEffect(() => {
     (async () => {
-            const cameraPermission = await Camera.requestCameraPermissionsAsync();
-            const microphonePermission = await Camera.requestMicrophonePermissionsAsync();
-            
-      
-            setHasPermission(cameraPermission.status === "granted");
-            setHasMicrophonePermission(microphonePermission.status === "granted");
-            
-          })();
-        }, []);
+      const cameraPermission = await Camera.requestCameraPermissionsAsync();
+      const microphonePermission =
+        await Camera.requestMicrophonePermissionsAsync();
 
-        if (hasPermission === undefined || hasMicrophonePermission === undefined) {
-              return <Text>Requestion permissions...</Text>
-            } else if (!hasPermission) {
-              return <Text>Permission for camera not granted.</Text>
-            }
+      setHasPermission(cameraPermission.status === "granted");
+      setHasMicrophonePermission(microphonePermission.status === "granted");
+    })();
+  }, []);
+
+  if (hasPermission === undefined || hasMicrophonePermission === undefined) {
+    return <Text>Requestion permissions...</Text>;
+  } else if (!hasPermission) {
+    return <Text>Permission for camera not granted.</Text>;
+  }
   const onCameraReady = () => {
     setIsCameraReady(true);
   };
@@ -157,74 +147,3 @@ export default function Camerapage() {
     </SafeAreaView>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  closeButton: {
-    position: "absolute",
-    top: 35,
-    left: 15,
-    height: closeButtonSize,
-    width: closeButtonSize,
-    borderRadius: Math.floor(closeButtonSize / 2),
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#c4c5c4",
-    opacity: 0.7,
-    zIndex: 2,
-  },
-  media: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  closeCross: {
-    width: "68%",
-    height: 1,
-    backgroundColor: "black",
-  },
-  control: {
-    position: "absolute",
-    flexDirection: "row",
-    bottom: 38,
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  capture: {
-    backgroundColor: "#f5f6f5",
-    borderRadius: 5,
-    height: captureSize,
-    width: captureSize,
-    borderRadius: Math.floor(captureSize / 2),
-    marginHorizontal: 31,
-  },
-  recordIndicatorContainer: {
-    flexDirection: "row",
-    position: "absolute",
-    top: 25,
-    alignSelf: "center",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "transparent",
-    opacity: 0.7,
-  },
-  recordTitle: {
-    fontSize: 14,
-    color: "#ffffff",
-    textAlign: "center",
-  },
-  recordDot: {
-    borderRadius: 3,
-    height: 6,
-    width: 6,
-    backgroundColor: "#ff0000",
-    marginHorizontal: 5,
-  },
-  text: {
-    color: "#fff",
-  },
-});
-
-
-
-

@@ -80,7 +80,6 @@ export default function Signiturepage() {
           <Text style={styles.fill}>
             Recording {index + 1} - {recordingLine.duration}
           </Text>
-          {/* <Button style={styles.button} onPress={() => recordingLine.sound.replayAsync()} title="Play"></Button> */}
           <TouchableOpacity onPress={() => recordingLine.sound.replayAsync()}>
             <AntDesign
               style={styles.button}
