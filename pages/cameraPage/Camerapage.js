@@ -12,7 +12,7 @@ import { Video } from "expo-av";
 const WINDOW_HEIGHT = Dimensions.get("window").height;
 const closeButtonSize = Math.floor(WINDOW_HEIGHT * 0.032);
 const captureSize = Math.floor(WINDOW_HEIGHT * 0.09);
-export default function App() {
+export default function Camerapage() {
   const [hasMicrophonePermission, setHasMicrophonePermission] = useState();
   const [hasPermission, setHasPermission] = useState();
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);

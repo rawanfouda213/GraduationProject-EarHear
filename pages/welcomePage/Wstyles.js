@@ -73,7 +73,7 @@ marginBottom:'-25%'
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems:'center',
-     marginTop:'10%'
+     marginTop:'2%'
 
 
   },
