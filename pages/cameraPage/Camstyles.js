@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
+import { styles } from "../cameraPage/Signstyles";
 const WINDOW_HEIGHT = Dimensions.get("window").height;
 const closeButtonSize = Math.floor(WINDOW_HEIGHT * 0.032);
 const captureSize = Math.floor(WINDOW_HEIGHT * 0.09);

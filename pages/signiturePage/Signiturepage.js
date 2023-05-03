@@ -1,8 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import {
-  Button,
-  StyleSheet,
   Text,
   View,
   TouchableOpacity,
@@ -13,7 +11,6 @@ import { Audio } from "expo-av";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { styles } from "./Signstyles";
-import { Svg, Path } from "react-native-svg";
 
 export default function Signiturepage() {
   const [value, setValue] = React.useState("");
@@ -27,6 +24,16 @@ export default function Signiturepage() {
     console.log(`The text input value is: ${value}`);
     // setValue('');
   };
+  async function prepareRecording() {
+    await Audio.setAudioModeAsync({
+      allowsRecordingIOS: true,
+      playsInSilentModeIOS: true,
+    });
+  }
+  prepareRecording();
+
+
+
   async function startRecording() {
     try {
       const permission = await Audio.requestPermissionsAsync();
@@ -36,7 +43,7 @@ export default function Signiturepage() {
           allowsRecordingIOS: true,
           playsInSilentModeIOS: true,
         });
-
+      
         const { recording } = await Audio.Recording.createAsync(
           Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
         );
