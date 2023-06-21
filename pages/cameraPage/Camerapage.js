@@ -1,9 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
-import { View, Text, TouchableOpacity, SafeAreaView } from "react-native";
+import { ActivityIndicator, View, Text, TouchableOpacity, SafeAreaView } from "react-native";
+import { useNavigation } from "@react-navigation/native"
 import { Camera } from "expo-camera";
 import { Video } from "expo-av";
+import { styles } from "./Camstyles";
 
 export default function Camerapage() {
+  const navigation = useNavigation();
   const [hasMicrophonePermission, setHasMicrophonePermission] = useState();
   const [hasPermission, setHasPermission] = useState();
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
@@ -11,6 +14,7 @@ export default function Camerapage() {
   const [isCameraReady, setIsCameraReady] = useState(false);
   const [isVideoRecording, setIsVideoRecording] = useState(false);
   const [videoSource, setVideoSource] = useState(null);
+  const [isGettingPrediction, setIsGettingPrediction] = useState(false);
   const cameraRef = useRef();
   useEffect(() => {
     (async () => {
@@ -31,10 +35,23 @@ export default function Camerapage() {
   const onCameraReady = () => {
     setIsCameraReady(true);
   };
+
+  const getPrediction = async(data) => {
+    setIsGettingPrediction(true)
+    console.log("waiting for prediction")
+    const response = await fetch(`https://sign-language-rq5xp.ondigitalocean.app/predict`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({image: 'data:image/jpeg;base64,' + data.base64})})
+    const j = await response.json()
+    setIsGettingPrediction(false)
+
+    navigation.navigate("Showimage", {res: j.image})
+  }
+
   const takePicture = async () => {
-    if (cameraRef.current) {
-      const options = { quality: 0.5, base64: true, skipProcessing: true };
+    if (cameraRef.current && !isGettingPrediction) {
+      const options = { quality: 1, base64: true, fixOrientation: true, mirrorImage: true};
       const data = await cameraRef.current.takePictureAsync(options);
+      getPrediction(data)
+      //navigation.navigate("Showimage")
       const source = data.uri;
       if (source) {
         await cameraRef.current.pausePreview();
@@ -138,6 +155,7 @@ export default function Camerapage() {
           console.log("cammera error", error);
         }}
       />
+      <ActivityIndicator style={styles.activityIndicator} size="large" animating = {isGettingPrediction}/>
       <View style={styles.container}>
         {isVideoRecording && renderVideoRecordIndicator()}
         {videoSource && renderVideoPlayer()}
