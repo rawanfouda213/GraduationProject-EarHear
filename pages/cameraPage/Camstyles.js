@@ -1,5 +1,4 @@
 import { StyleSheet, Dimensions } from "react-native";
-import { styles } from "../cameraPage/Signstyles";
 const WINDOW_HEIGHT = Dimensions.get("window").height;
 const closeButtonSize = Math.floor(WINDOW_HEIGHT * 0.032);
 const captureSize = Math.floor(WINDOW_HEIGHT * 0.09);
@@ -69,4 +68,13 @@ export const styles = StyleSheet.create({
   text: {
     color: "#fff",
   },
+  activityIndicator: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
+  }
 });

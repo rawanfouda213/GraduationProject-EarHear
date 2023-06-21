@@ -6,6 +6,7 @@ import Splashscreen from "./pages/splashScreen/Splashscreen";
 import Signiturepage from "./pages/signiturePage/Signiturepage";
 import Camerapage from "./pages/cameraPage/Camerapage";
 import Tabs from "./pages/tabPage/Tabs";
+import Showimage from "./pages/showImagePage/Showimage"
 const App = () => {
   const Stack = createNativeStackNavigator();
   return (
@@ -36,6 +37,11 @@ const App = () => {
             options={{ headerShown: false }}
             name="Camerapage"
             component={Camerapage}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="Showimage"
+            component={Showimage}
           />
         </Stack.Navigator>
       </NavigationContainer>
