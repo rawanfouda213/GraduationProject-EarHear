@@ -161,7 +161,9 @@ import { Audio } from "expo-av";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import axios from "axios";
+import { Buffer } from "buffer";
 import { styles } from "./Signstyles";
+import * as FileSystem from 'expo-file-system';
 const Signiturepage = () => {
   const [value, setValue] = useState("");
   const [recording, setRecording] = useState();
@@ -177,12 +179,16 @@ const Signiturepage = () => {
   const assembly = axios.create({
     baseURL: "https://api.assemblyai.com/v2",
     headers: {
-      authorization: APIKey,
-      "content-type": "application/json",
-    },
+      authorization: APIKey
+    }
   });
 
   const localWords = ["you", "TV", "like", "that", "and", "no"]; // example local dataset
+
+  const readFile = async (path) => {
+    const response = await RNFS.readFile(path);
+    setFileData(response); //set the value of response to the fileData Hook.
+  };
 
   const getSimilarity = (word1, word2) => {
     const set1 = new Set(word1.split(""));
@@ -267,7 +273,7 @@ const Signiturepage = () => {
 
         const { recording } = await Audio.Recording.createAsync({
           android: {
-            extension: ".mp4",
+            extension: ".m4a",
             audioEncoder: Audio.RECORDING_OPTION_ANDROID_AUDIO_ENCODER_AAC,
             outputFormat: Audio.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_MPEG_4,
           },
@@ -293,6 +299,36 @@ const Signiturepage = () => {
   async function stopRecording(audioURLs, setaudioURLs) {
     setRecording(undefined);
     await recording.stopAndUnloadAsync();
+    const uri = recording.getURI();
+    console.log("uri is " + uri);
+    var res = await FileSystem.readAsStringAsync(uri, { encoding: FileSystem.EncodingType.Base64 });
+    //console.log("res is " + res)
+    /*res = "data:audio/mp4;base64," + res;
+    console.log("uploading file");
+    const response = await assembly.post("/upload", res);*/
+    
+    const buff = Buffer.from(res, "base64")
+    const response = await assembly.post("/upload", buff, {"content-type": "application/octet-stream"});
+    const upload_url = response.data.upload_url;
+    console.log("sending transcript request");
+    const t_response = await assembly.post("/transcript", {audio_url: upload_url});
+    const transcriptId = t_response.data.id;
+    while(true) {
+      const pollingResponse = await assembly.get("/transcript/" + transcriptId)
+      const transcriptionResult = pollingResponse.data
+
+      if (transcriptionResult.status === 'completed') {
+        console.log("completed: " + transcriptionResult.text)
+        setMessage(transcriptionResult.text)
+        break;
+      } else if (transcriptionResult.status === 'error') {
+        throw new Error(`Transcription failed: ${transcriptionResult.error}`)
+      } else {
+        await new Promise((resolve) => setTimeout(resolve, 3000))
+      }
+    }
+
+
     let updatedRecordings = [...audioURLs];
     const { sound, status } = await recording.createNewLoadedSoundAsync();
     updatedRecordings.push({
