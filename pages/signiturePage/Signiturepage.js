@@ -155,7 +155,9 @@ import {
   View,
   TouchableOpacity,
   SafeAreaView,
+  Image,
   TextInput,
+  ActivityIndicator
 } from "react-native";
 import { Audio } from "expo-av";
 import { Ionicons } from "@expo/vector-icons";
@@ -170,7 +172,10 @@ const Signiturepage = () => {
   const [audioURLs, setaudioURLs] = useState([]);
   const [message, setMessage] = useState("");
   const [transcripts, setTranscripts] = useState([]);
-
+  const [aslImageSrc, setAslImageSrc]= useState('./img/temp.png');
+  const [isLoading, setIsLoading] = useState(false);
+  const [aslIdx, setAslIdx] = useState(0);
+  const [images, setImages] = useState([]);
   useEffect(() => {
     getTranscript(audioURLs, setTranscripts);
   }, []);
@@ -184,11 +189,6 @@ const Signiturepage = () => {
   });
 
   const localWords = ["you", "TV", "like", "that", "and", "no"]; // example local dataset
-
-  const readFile = async (path) => {
-    const response = await RNFS.readFile(path);
-    setFileData(response); //set the value of response to the fileData Hook.
-  };
 
   const getSimilarity = (word1, word2) => {
     const set1 = new Set(word1.split(""));
@@ -245,6 +245,38 @@ const Signiturepage = () => {
     }
   };
 
+
+  async function getImages(sentence) {
+    setIsLoading(true)
+    const punctuationless = sentence
+  .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
+  .replace(/\s{2,}/g, " ");
+    var words = punctuationless.toLowerCase().split(" ")
+    var images = [];
+    for(var i = 0; i < words.length; i++) {
+        const url = "https://sign-language-rq5xp.ondigitalocean.app/images/" + words[i];
+        /*const response = await fetch(url);
+        if(response.status != 404) {
+          images.push({uri: url})
+          console.log("here at url = " + url)
+        }*/
+        console.log("Word is " + words[i])
+        const downloadResumable = FileSystem.createDownloadResumable(url, FileSystem.documentDirectory + words[i] + '.webp');
+        const result = await downloadResumable.downloadAsync();
+        if(result.status == 404) {
+          continue;
+        }
+        console.log('Finished downloading to ', result.uri);
+        images.push(result.uri)
+    }
+    if(images.length) {
+      setAslIdx(0)
+      setAslImageSrc(images[0]);
+    }
+    setImages(images)
+    setIsLoading(false)
+  }
+
   //record functions///
   const handleChange = (text) => {
     setValue(text);
@@ -263,6 +295,7 @@ const Signiturepage = () => {
 
   async function startRecording() {
     try {
+      console.log("started recording")
       const permission = await Audio.requestPermissionsAsync();
 
       if (permission.status === "granted") {
@@ -299,6 +332,7 @@ const Signiturepage = () => {
   async function stopRecording(audioURLs, setaudioURLs) {
     setRecording(undefined);
     await recording.stopAndUnloadAsync();
+    setIsLoading(true)
     const uri = recording.getURI();
     console.log("uri is " + uri);
     var res = await FileSystem.readAsStringAsync(uri, { encoding: FileSystem.EncodingType.Base64 });
@@ -319,7 +353,9 @@ const Signiturepage = () => {
 
       if (transcriptionResult.status === 'completed') {
         console.log("completed: " + transcriptionResult.text)
-        setMessage(transcriptionResult.text)
+        setIsLoading(false)
+        setValue(transcriptionResult.text)
+        getImages(transcriptionResult.text)
         break;
       } else if (transcriptionResult.status === 'error') {
         throw new Error(`Transcription failed: ${transcriptionResult.error}`)
@@ -329,7 +365,7 @@ const Signiturepage = () => {
     }
 
 
-    let updatedRecordings = [...audioURLs];
+    /*let updatedRecordings = [...audioURLs];
     const { sound, status } = await recording.createNewLoadedSoundAsync();
     updatedRecordings.push({
       sound: sound,
@@ -337,7 +373,23 @@ const Signiturepage = () => {
       file: recording.getURI(),
     });
 
-    setaudioURLs(updatedRecordings);
+    setaudioURLs(updatedRecordings);*/
+  }
+
+  function nextImage() {
+    if(images.length) {
+      const nxtIdx = (aslIdx+1)%images.length
+      setAslIdx(nxtIdx)
+      setAslImageSrc(images[nxtIdx])
+    }
+  }
+
+  function previousImage() {
+    if(images.length) {
+      const nxtIdx = ((aslIdx-1)%images.length + images.length)%images.length
+      setAslIdx(nxtIdx)
+      setAslImageSrc(images[nxtIdx])
+    }
   }
 
   function getDurationFormatted(millis) {
@@ -347,6 +399,7 @@ const Signiturepage = () => {
     const secondsDisplay = seconds < 10 ? `0${seconds}` : seconds;
     return `${minutesDisplay}:${secondsDisplay}`;
   }
+
   function getRecordingLines() {
     return audioURLs.map((recordingLine, index) => {
       return (
@@ -369,12 +422,31 @@ const Signiturepage = () => {
   return (
     <>
       <SafeAreaView style={styles.container}>
-        <View style={styles.avatarView}>
-          <Text>Check the console for the transcribed text.</Text>
-          {transcripts.map((transcript, index) => (
-            <Text key={index}>{transcript}</Text>
-          ))}
-        </View>
+      <View style={styles.avatarView}>
+        <Image
+            style={styles.aslImage}
+            name="asl-image"
+            source={{uri: aslImageSrc}}
+
+          />
+      <View style={styles.imageControls}>
+      <TouchableOpacity onPress={previousImage}>
+            <Ionicons
+                  size={30}
+                  name="caret-back-outline"
+                  color="#034b6e"
+                />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={nextImage}>
+            <Ionicons
+                  size={30}
+                  name="caret-forward-outline"
+                  color="#034b6e"
+                />
+      </TouchableOpacity>
+      <ActivityIndicator style={styles.activityIndicator} size="large" animating = {isLoading}/>
+      </View>
+      </View>
         <View style={styles.textView}>
           <View style={styles.textInputStyle}>
             <TextInput
@@ -387,8 +459,20 @@ const Signiturepage = () => {
 
             <TouchableOpacity
               title={recording ? "Stop Recording" : "Start Recording"}
-              onPress={startRecording}
-              onPressOut={() => stopRecording(audioURLs, setaudioURLs)}
+              onPress={() => {
+                if(value.trim()) {
+                  getImages(value)
+                }
+                else {
+                  if(recording == undefined) {
+                    startRecording()
+                  }
+                  else {
+                    stopRecording(audioURLs, setaudioURLs)
+                  }
+                }
+              }}
+              //onPressOut={() => {if(!value.trim()) stopRecording(audioURLs, setaudioURLs)}}
             >
               {value.trim() ? (
                 <Ionicons
