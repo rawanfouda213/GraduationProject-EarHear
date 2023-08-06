@@ -254,7 +254,7 @@ const Signiturepage = () => {
     var words = punctuationless.toLowerCase().split(" ")
     var images = [];
     for(var i = 0; i < words.length; i++) {
-        const url = "https://sign-language-rq5xp.ondigitalocean.app/images/" + words[i];
+        const url = "https://sign-language-rq5xp-zgkvg.ondigitalocean.app/images/" + words[i];
         /*const response = await fetch(url);
         if(response.status != 404) {
           images.push({uri: url})
