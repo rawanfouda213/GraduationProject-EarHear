@@ -39,7 +39,7 @@ export default function Camerapage() {
   const getPrediction = async(data) => {
     setIsGettingPrediction(true)
     console.log("waiting for prediction")
-    const response = await fetch(`https://sign-language-rq5xp.ondigitalocean.app/predict`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({image: 'data:image/jpeg;base64,' + data.base64})})
+    const response = await fetch(`https://sign-language-rq5xp-zgkvg.ondigitalocean.app/predict`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({image: 'data:image/jpeg;base64,' + data.base64})})
     const j = await response.json()
     setIsGettingPrediction(false)
 
